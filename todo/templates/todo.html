@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+        .task-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .task {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .task:last-child {
+            border-bottom: none;
+        }
+        .task p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .task p span {
+            font-weight: bold;
+            color: #555;
+        }
+        .task-tags {
+            background: #4CAF50;
+            color: #fff;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+        .task-status {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .task-status.completed {
+            background: #4CAF50;
+            color: #fff;
+        }
+        .task-status.pending {
+            background: #FFC107;
+            color: #fff;
+        }
+        .task-status.overdue {
+            background: #F44336;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Task List</h1>
+
+<div class="task-container">
+    {% for task in tasks %}
+    <div class="task">
+        <p><span>Title:</span> {{ task.title }}</p>
+        <p><span>Timestamp:</span> {{ task.timestamp }}</p>
+        <p><span>Description:</span> {{ task.description }}</p>
+        <p><span>Due Date:</span> {{ task.due_date }}</p>
+        <p><span>Tags:</span> <span class="task-tags">{{ task.tags }}</span></p>
+        <p><span>Status:</span> 
+            <span class="task-status {{ task.status | lower }}">
+                {{ task.status }}
+            </span>
+        </p>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

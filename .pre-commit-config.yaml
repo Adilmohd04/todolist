@@ -1,0 +1,9 @@
+- repo: https://github.com/pre-commit/mirrors-flake8
+  rev: v5.0.4  # Replace with the latest Flake8 version
+  hooks:
+    - id: flake8
+
+- repo: https://github.com/psf/black
+  rev: 23.3.0  # Replace with the latest Black version
+  hooks:
+    - id: black
