@@ -102,6 +102,7 @@ TSet Base URL: Use an environment variable, e.g., {{baseUrl}}.
 
 Base URL: https://adil001.pythonanywhere.com
 Add Requests: Create the following 5 requests in the collection:
+```bash
 {
   "title": "icecream",
   "description": "Milk, Bread, Eggs",
@@ -109,12 +110,14 @@ Add Requests: Create the following 5 requests in the collection:
   "tags": ["tag1"],
   "status": "OPEN"
 }
-
+```
+```bash
 GET /tasks/: Fetch all tasks.
 POST /tasks/: Add a new task (include JSON body).
 GET /tasks/{id}/: Fetch task by ID.
 PUT /tasks/{id}/: Update task by ID (include JSON body).
 DELETE /tasks/{id}/: Delete task by ID.
+```
 Export the Collection:
 
 Click the collection's menu (three dots) → Export → Save as JSON.
