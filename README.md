@@ -1,4 +1,7 @@
-### Steps to Set Up the Project
+Hosted Link
+Access the live version of the To-Do List application here:
+🔗 https://adil001.pythonanywhere.com/
+
 
 1. **Clone the Repository**
    ```bash
@@ -17,6 +20,9 @@
    Install all required Python libraries.
    ```bash
    pip install -r requirements.txt
+   pip install django djangorestframework
+   pip install flake8 black
+
    ```
 
 4. **Run Database Migrations**
@@ -79,38 +85,33 @@
 
 2. **Run Integration Tests**
    ```bash
-   pytest todo/tests_integration.py
+   python todo/tests_integration.py
    ```
 
 3. **Run End-to-End (E2E) Tests**
    Follow the Cypress setup steps and run tests using the Cypress UI.
-
+ ```bash
+   cd todo/cypress
+   npm install cypress
+   npm cypress run
+   ```
 ---
 
 ### API Endpoints
-The API supports the following operations:
-- **GET** `/tasks/`: List all tasks
-- **POST** `/tasks/`: Create a new task
-- **PUT** `/tasks/<id>/`: Update a task
-- **DELETE** `/tasks/<id>/`: Delete a task
+TSet Base URL: Use an environment variable, e.g., {{baseUrl}}.
 
-Use tools like [Postman](https://www.postman.com/) to interact with the API.
+Base URL: https://adil001.pythonanywhere.com
+Add Requests: Create the following 5 requests in the collection:
 
----
+GET /tasks/: Fetch all tasks.
+POST /tasks/: Add a new task (include JSON body).
+GET /tasks/{id}/: Fetch task by ID.
+PUT /tasks/{id}/: Update task by ID (include JSON body).
+DELETE /tasks/{id}/: Delete task by ID.
+Export the Collection:
 
-### Contributing
-Feel free to open issues or submit pull requests for improvements. Follow these steps to contribute:
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-name`).
-3. Commit changes (`git commit -m "Feature description"`).
-4. Push to the branch (`git push origin feature-name`).
-5. Create a pull request.
+Click the collection's menu (three dots) → Export → Save as JSON.
+Test the APIs:
 
----
+Ensure each request works with the live Django app.
 
-### License
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Let me know if you need more details or customizations!
