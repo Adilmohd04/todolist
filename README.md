@@ -102,6 +102,13 @@ TSet Base URL: Use an environment variable, e.g., {{baseUrl}}.
 
 Base URL: https://adil001.pythonanywhere.com
 Add Requests: Create the following 5 requests in the collection:
+{
+  "title": "icecream",
+  "description": "Milk, Bread, Eggs",
+  "due_date": "2024-12-10",
+  "tags": ["tag1"],
+  "status": "OPEN"
+}
 
 GET /tasks/: Fetch all tasks.
 POST /tasks/: Add a new task (include JSON body).
