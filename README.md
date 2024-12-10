@@ -118,10 +118,4 @@ GET /tasks/{id}/: Fetch task by ID.
 PUT /tasks/{id}/: Update task by ID (include JSON body).
 DELETE /tasks/{id}/: Delete task by ID.
 ```
-Export the Collection:
-
-Click the collection's menu (three dots) → Export → Save as JSON.
-Test the APIs:
-
-Ensure each request works with the live Django app.
 
