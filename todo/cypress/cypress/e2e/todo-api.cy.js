@@ -31,7 +31,7 @@ describe('Todo API End-to-End Tests', () => {
     it('should retrieve all todo items', () => {
       cy.request({
         method: 'GET',
-        url: 'http://127.0.0.1:8000/tasks/', 
+        url: 'https://adil001.pythonanywhere.com/tasks/', 
         headers: {
           'Authorization': authHeader 
         }
