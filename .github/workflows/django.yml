@@ -63,11 +63,7 @@ jobs:
         run: npm install --save-dev cypress
         working-directory: ./todo/cypress
 
-      # Step 4: Grant execute permissions for Cypress
-      - name: Grant execute permissions for Cypress
-        run: chmod +x ./todo/cypress/node_modules/cypress
-        working-directory: ./todo/cypress
-
+   
       # Step 5: Run Cypress tests
       - name: Run Cypress tests
         run: ./todo/cypress/node_modules/cypress run
