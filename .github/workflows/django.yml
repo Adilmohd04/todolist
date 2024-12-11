@@ -80,14 +80,15 @@ jobs:
         with:
           node-version: '16'
 
-      # Step 7: Install Cypress and dependencies
-      - name: Install Cypress and dependencies
-        run: npm install --save-dev cypress
+      # Step 7: Install dependencies
+      - name: Install dependencies
+        run: npm install
         working-directory: ./todo/cypress
 
-      # Step 8: Fix Cypress permissions
-      - name: Set Cypress binary permissions
-        run: chmod +x ./todo/cypress/node_modules/.bin/cypress
+      # Step 8: Install Cypress binary
+      - name: Install Cypress binary
+        run: npx cypress install
+        working-directory: ./todo/cypress
 
       # Step 9: Run Cypress tests
       - name: Run Cypress tests
