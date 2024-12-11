@@ -50,24 +50,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Step 2: Set up Python environment (if needed for other parts of the project)
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'  # Use your preferred Python version
+
+      # Step 3: Set up Node.js environment for Cypress
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '16'  # Adjust to the Node.js version your project uses
 
-      - name: Install Cypress
+      # Step 4: Install dependencies in the Cypress folder
+      - name: Install dependencies (Cypress)
         run: |
-          npm install
-          npx cypress install
+          cd todo/cypress  # Navigate to the directory where package.json is located
+          npm install  # Install the Node.js dependencies
 
+      # Step 5: Ensure Cypress binary has the correct permissions
+      - name: Ensure Cypress binary has execute permissions
+        run: chmod +x $(npm bin)/cypress  # Add execute permissions for Cypress
+
+      # Step 6: Run Cypress tests
       - name: Run Cypress tests
-        run: npx cypress run --spec
-
-      - name: Upload Cypress screenshots
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-screenshots
-          path: todo/cypress/screenshots
+        run: |
+          cd todo/cypress  # Ensure you're in the correct directory
+          npx cypress run  # Run Cypress tests
