@@ -46,48 +46,54 @@ jobs:
           path: .coverage  # Adjust if coverage report is elsewhere
 
   e2e-tests:
-   runs-on: ubuntu-latest
-   steps:
-    # Step 1: Checkout repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Step 2: Set up Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
-    # Step 3: Install dependencies (including Cypress)
-    - name: Install dependencies
-      run: npm install --save-dev cypress
-      working-directory: ./todo/cypress
+      # Step 3: Install Python dependencies
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install django djangorestframework
 
-    # Step 4: Cache Cypress binary
-    - name: Cache Cypress binary
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/Cypress
-        key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-cypress-
+      # Step 4: Apply migrations
+      - name: Apply migrations
+        run: python manage.py migrate
 
-    # Step 5: (Optional) Ensure Cypress is installed if not already covered
-    - name: Install Cypress binary
-      run: npx cypress install
+      # Step 5: Start Django server
+      - name: Start Django server
+        run: |
+          nohup python manage.py runserver 0.0.0.0:8000 &
+        continue-on-error: false
 
-    # Step 6: Set Cypress permissions (optional, only if needed)
-    - name: Set Cypress permissions
-      run: chmod +x ./todo/cypress/node_modules/.bin/cypress
+      # Step 6: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-    # Step 7: Run Cypress tests
-    - name: Run Cypress tests
-      run: npx cypress run --config baseUrl=https://adil001.pythonanywhere.com
-      working-directory: ./todo/cypress
+      # Step 7: Install Cypress and other dependencies
+      - name: Install Cypress and dependencies
+        run: npm install --save-dev cypress
+        working-directory: ./todo/cypress
 
-    # Optional Step 8: Upload Cypress test results
-    - name: Upload Cypress test results
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-test-results
-        path: ./todo/cypress/cypress/results/
+      # Step 8: Run Cypress tests
+      - name: Run Cypress tests
+        run: npx cypress run --config baseUrl=http://127.0.0.1:8000
+        working-directory: ./todo/cypress
+
+      # Step 9: Upload Cypress test results
+      - name: Upload Cypress test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-results
+          path: ./todo/cypress/cypress/results/
