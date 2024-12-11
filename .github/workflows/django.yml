@@ -48,35 +48,44 @@ jobs:
 
   e2e-tests:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment (if needed for other parts of the project)
+      # Step 2: Set up Python (if needed for other parts of your project)
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Use your preferred Python version
+          python-version: '3.9'
 
-      # Step 3: Set up Node.js environment for Cypress
+      # Step 3: Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Adjust to the Node.js version your project uses
+          node-version: '16'
 
-      # Step 4: Install dependencies in the Cypress folder
-      - name: Install dependencies (Cypress)
-        run: |
-          cd todo/cypress  # Navigate to the directory where package.json is located
-          npm install  # Install the Node.js dependencies
+      # Step 4: Install dependencies (including Cypress)
+      - name: Install dependencies
+        run: npm install --save-dev cypress
+        working-directory: ./todo/cypress
 
-      # Step 5: Ensure Cypress binary has the correct permissions
-      - name: Ensure Cypress binary has execute permissions
-        run: chmod +x $(npm bin)/cypress  # Add execute permissions for Cypress
+      # Step 5: Grant execute permissions for Cypress binary
+      - name: Grant execute permissions for Cypress
+        run: chmod +x ./todo/cypress/node_modules/.bin/cypress
+        working-directory: ./todo/cypress
 
       # Step 6: Run Cypress tests
+      - name: Run Cypress tests
+        run: ./todo/cypress/node_modules/.bin/cypress run
+        working-directory: ./todo/cypress
+
+      # Optional Step 7: Upload Cypress test results
+      - name: Upload Cypress test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-results
+          path: ./todo/cypress/cypress/results/
       - name: Run Cypress tests
         run: |
           cd todo/cypress  # Ensure you're in the correct directory
