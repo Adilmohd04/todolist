@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Adjust the branch name if necessary
+      - main  # Runs on pushes to the 'main' branch
   pull_request:
     branches:
       - main  # Runs on pull requests targeting the 'main' branch
@@ -59,49 +59,50 @@ jobs:
           path: .coverage  # Adjust if coverage report is elsewhere
 
   e2e-tests:
-  runs-on: ubuntu-latest
-  steps:
-    # Step 1: Checkout repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    runs-on: ubuntu-latest
 
-    # Step 2: Set up Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    # Step 3: Install dependencies (including Cypress)
-    - name: Install dependencies
-      run: npm install --save-dev cypress
-      working-directory: ./todo/cypress
-
-    # Step 4: Cache Cypress binary
-    - name: Cache Cypress binary
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/Cypress
-        key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-cypress-
-
-    # Step 5: Install Cypress binary
-    - name: Install Cypress binary
-      run: npx cypress install
-
-    # Step 6: Set Cypress permissions
-    - name: Set Cypress permissions
-      run: chmod +x ./todo/cypress/node_modules/.bin/cypress
-
-    # Step 7: Run Cypress tests
-    - name: Run Cypress tests
-      run: |
-        npx cypress run --config baseUrl=https://adil001.pythonanywhere.com
-      working-directory: ./todo/cypress
-
-    # Optional Step 8: Upload Cypress test results
-    - name: Upload Cypress test results
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-test-results
-        path: ./todo/cypress/cypress/results/
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+  
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+  
+      # Step 3: Install dependencies (including Cypress)
+      - name: Install dependencies
+        run: npm install --save-dev cypress
+        working-directory: ./todo/cypress
+  
+      # Step 4: Cache Cypress binary
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+  
+      # Step 5: Install Cypress binary
+      - name: Install Cypress binary
+        run: npx cypress install
+  
+      # Step 6: Set Cypress permissions
+      - name: Set Cypress permissions
+        run: chmod +x ./todo/cypress/node_modules/.bin/cypress
+  
+      # Step 7: Run Cypress tests
+      - name: Run Cypress tests
+        run: |
+          npx cypress run --config baseUrl=https://adil001.pythonanywhere.com
+        working-directory: ./todo/cypress
+  
+      # Optional Step 8: Upload Cypress test results
+      - name: Upload Cypress test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-results
+          path: ./todo/cypress/cypress/results/
