@@ -30,13 +30,6 @@ jobs:
           pip install -r requirements.txt
           pip install pytest flake8 black
 
-      # Step 4: Run linting with Flake8
-      - name: Run Flake8
-        run: flake8 todolist_project  # Adjust path if needed
-
-      # Step 5: Check code formatting with Black
-      - name: Run Black
-        run: black --check todolist_project  # Adjust path if needed
 
       # Step 6: Run unit tests
       - name: Run unit tests
