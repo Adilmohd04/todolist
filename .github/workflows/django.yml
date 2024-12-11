@@ -47,34 +47,27 @@ jobs:
           path: .coverage  # Adjust if coverage report is elsewhere
 
   e2e-tests:
-    runs-on: ubuntu-24.04  # Updated to ubuntu-24.04 for future compatibility
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use the appropriate Node.js version
+          node-version: '16'
 
-      # Step 3: Install Cypress dependencies
-      - name: Install Cypress dependencies
+      - name: Install Cypress
         run: |
-          cd todo/cypress
+          npm install
           npx cypress install
 
-      # Step 4: Run Cypress E2E tests
       - name: Run Cypress tests
-        run: |
-          cd todo/cypress
-          npx cypress run --spec 
+        run: npx cypress run --spec
 
-      # Step 5: Upload Cypress screenshots (optional)
-      - name: Upload screenshots
-        uses: actions/upload-artifact@v3  # Updated to v3
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
           path: todo/cypress/screenshots
