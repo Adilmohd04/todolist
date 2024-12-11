@@ -8,7 +8,7 @@ describe('Todo API End-to-End Tests', () => {
     it('should create a new todo item', () => {
       cy.request({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/tasks/', 
+        url: 'https://adil001.pythonanywhere.com/tasks/', 
         headers: {
           'Authorization': authHeader, 
           'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ describe('Todo API End-to-End Tests', () => {
       expect(taskId).to.exist;
       cy.request({
         method: 'PUT',
-        url: `http://127.0.0.1:8000/tasks/${taskId}/`, 
+        url: `https://adil001.pythonanywhere.com/tasks/${taskId}/`, 
         headers: {
           'Authorization': authHeader, 
           'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ describe('Todo API End-to-End Tests', () => {
       expect(taskId).to.exist; 
       cy.request({
         method: 'DELETE',
-        url: `http://127.0.0.1:8000/tasks/${taskId}/`,
+        url: `https://adil001.pythonanywhere.com/tasks/${taskId}/`,
         headers: {
           'Authorization': authHeader
         }
@@ -84,7 +84,7 @@ describe('Todo API End-to-End Tests', () => {
       expect(taskId).to.exist;
       cy.request({
         method: 'GET',
-        url: `http://127.0.0.1:8000/tasks/${taskId}/`, 
+        url: `https://adil001.pythonanywhere.com/tasks/${taskId}/`, 
         failOnStatusCode: false, 
         headers: {
           'Authorization': authHeader 
