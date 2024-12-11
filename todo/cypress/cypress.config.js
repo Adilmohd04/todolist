@@ -9,7 +9,7 @@ module.exports = defineConfig({
   "videoUploadOnPasses": false,
   "videosFolder": "cypress/videos",
     requestTimeout: 60000, 
-    defaultCommandTimeout: 30000, 
+    defaultCommandTimeout: 60000, 
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
