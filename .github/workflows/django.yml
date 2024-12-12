@@ -3,15 +3,14 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Adjust the branch name if necessary
+      - main  
   pull_request:
     branches:
-      - main  # Runs on pull requests targeting the 'main' branch
+      - main  
 
 jobs:
   tests:
-    runs-on: ubuntu-24.04  # Updated to ubuntu-24.04 for future compatibility
-
+    runs-on: ubuntu-24.04  
     steps:
       # Step 1: Checkout code
       - name: Checkout code
@@ -21,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'  # Adjust Python version if required
+          python-version: '3.9'  
 
       # Step 3: Install Python dependencies
       - name: Install Python dependencies
@@ -40,10 +39,10 @@ jobs:
 
       # Step 8: Upload test coverage report (optional)
       - name: Upload coverage report
-        uses: actions/upload-artifact@v3  # Updated to v3
+        uses: actions/upload-artifact@v3  
         with:
           name: coverage-report
-          path: .coverage  # Adjust if coverage report is elsewhere
+          path: .coverage  
 
   e2e-tests:
     runs-on: ubuntu-latest
