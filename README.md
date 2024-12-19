@@ -21,6 +21,8 @@ Access the live version of the To-Do List application here:
    ```bash
    pip install -r requirements.txt
    pip install django djangorestframework
+   pip install djangorestframework-simplejwt
+
    pip install flake8 black
 
    ```
