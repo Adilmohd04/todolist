@@ -81,7 +81,7 @@ jobs:
       # Step 7: Run Selenium tests
       - name: Run Selenium tests
         run: |
-          python -m unittest discover -s todo/selenium_tests
+          python -m unittest discover -s todo/tests_e2e
         continue-on-error: false
 
       # Step 8: Upload Selenium test results
