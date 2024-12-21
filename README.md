@@ -124,4 +124,3 @@ Test Base URL: Use an environment variable, e.g., `{{baseUrl}}`.
 
 ---
 
-This setup replaces Cypress with Selenium for end-to-end testing. Let me know if you need further modifications!
