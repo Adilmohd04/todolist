@@ -10,20 +10,16 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Set Chrome options
 options = Options()
-options.add_argument("--headless")  # Run in headless mode
-options.add_argument("--no-sandbox")  # Required for CI environments
-options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-options.add_argument("--remote-debugging-port=9222")  # Avoid DevToolsActivePort error
+options.add_argument("--headless")  
+options.add_argument("--no-sandbox") 
+options.add_argument("--disable-dev-shm-usage")  
+options.add_argument("--remote-debugging-port=9222")  
 
-# Set up the ChromeDriver service
 service = Service(ChromeDriverManager().install())
 
-# Initialize the WebDriver with the service and options
 driver = webdriver.Chrome(service=service, options=options)
 
-# Your test code follows...
 
 def login_admin():
     try:
