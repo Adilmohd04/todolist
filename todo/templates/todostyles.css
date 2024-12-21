@@ -1,0 +1,168 @@
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+    
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+    
+        .new-task-btn {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            text-align: center;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        .new-task-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .task-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .task {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .task:last-child {
+            border-bottom: none;
+        }
+    
+        .task-info {
+            flex: 1;
+        }
+    
+        .task-info p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+    
+        .task-info p span {
+            font-weight: bold;
+            color: #555;
+        }
+    
+        .task-tags {
+            background: #4CAF50;
+            color: #fff;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+    
+        .task-status {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+    
+        .task-status.completed {
+            background: #4CAF50;
+            color: #fff;
+        }
+    
+        .task-status.pending {
+            background: #FFC107;
+            color: #fff;
+        }
+    
+        .task-status.overdue {
+            background: #F44336;
+            color: #fff;
+        }
+    
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+    
+        .task-actions button, .task-actions a {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            border: none;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+    
+        .task-actions .delete-btn {
+            background: #F44336;
+            text-align: center;
+        }
+    
+        .task-actions .delete-btn:hover {
+            background: #D32F2F;
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .task-actions .edit-btn {
+            background: #FFC107;
+            text-align: center;
+        }
+    
+        .task-actions .edit-btn:hover {
+            background: #FFA000;
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            align-items: center;
+        }
+    
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    
+        .pagination a:hover {
+            background: #45a049;
+            transform: scale(1.1);
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .pagination span {
+            margin: 0 10px;
+            font-weight: bold;
+            color: #555;
+        }
+    
+        .pagination a.active {
+            background: #333;
+            color: white;
+        }

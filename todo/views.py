@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,14 +6,65 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
 from .models import Task
 from .serializers import TaskSerializer
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.utils.dateparse import parse_date
 
+from django.core.paginator import Paginator
 
 def index(request):
-    tasks = Task.objects.all()
+    task_list = Task.objects.all().order_by('-timestamp')
+    paginator = Paginator(task_list, 5)
+    page_number = request.GET.get('page')
+    tasks = paginator.get_page(page_number)
     context = {'tasks': tasks}
     return render(request, 'todo.html', context)
 
+def task_form(request, pk=None):
+    task = None
+    if pk:
+        task = get_object_or_404(Task, pk=pk)
+    
+    if request.method == "POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        due_date = parse_date(request.POST.get("due_date"))  # Parse and validate the date
+        tags = request.POST.get("tags")
+        status = request.POST.get("status")
 
+        if task:
+            task.title = title
+            task.description = description
+            task.due_date = due_date
+            task.tags = tags
+            task.status = status
+            task.save()
+        else:
+            Task.objects.create(
+                title=title,
+                description=description,
+                due_date=due_date,
+                tags=tags,
+                status=status
+            )
+        return HttpResponseRedirect(reverse("index"))
+
+    status_choices = Task.STATUS_CHOICES  # Correctly access the choices
+    return render(request, "form.html", {
+        "form_title": "Edit Task" if pk else "New Task",
+        "form_action": reverse("task-edit", args=[pk]) if pk else reverse("task-form"),
+        "task": task,
+        "status_choices": status_choices
+    })
+
+def task_delete(request, pk):
+    try:
+        task = Task.objects.get(pk=pk)
+        task.delete()
+        return redirect('/')  # Redirect to task list after deletion
+    except Task.DoesNotExist:
+        return redirect('/')  # Handle case where task doesn't exist
+  
 class TaskListCreateView(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
@@ -61,6 +112,9 @@ class TaskDetailView(APIView):
             return Response({"message": "Task deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Task.DoesNotExist:
             return Response({"error": "Task not found"}, status=status.HTTP_404_NOT_FOUND)
-
+    
+    
     queryset = Task.objects.all() 
     serializer_class = TaskSerializer
+   
+   
