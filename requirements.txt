@@ -43,7 +43,4 @@ tzdata==2024.2
 urllib3==2.2.3
 websocket-client==1.8.0
 wsproto==1.2.0
-<<<<<<< HEAD
 beautifulsoup4==4.12.3
-=======
->>>>>>> f36733a2e9223126a7834e010dfad3f1e9e1a441
