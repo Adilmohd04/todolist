@@ -5,9 +5,11 @@ module.exports = defineConfig({
     projectId: "4hucyo",
     video: true,
     baseUrl: 'http://127.0.0.1:8000',
-    "videoCompression": 32, // Compress video to a certain level
-  "videoUploadOnPasses": false, // Only upload video if tests fail (if using a CI tool like CircleCI)
+    "videoCompression": 32, 
+  "videoUploadOnPasses": false,
   "videosFolder": "cypress/videos",
+    requestTimeout: 60000, 
+    defaultCommandTimeout: 60000, 
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

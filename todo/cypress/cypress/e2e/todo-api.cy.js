@@ -84,7 +84,7 @@ describe('Todo API End-to-End Tests', () => {
       expect(taskId).to.exist;
       cy.request({
         method: 'GET',
-        url: `http://127.0.0.1:8000/tasks/${taskId}/`, 
+        url: `http://127.0.0.1:8000//tasks/${taskId}/`, 
         failOnStatusCode: false, 
         headers: {
           'Authorization': authHeader 
