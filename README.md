@@ -1,7 +1,12 @@
-Hosted Link
-Access the live version of the To-Do List application here:
-🔗 https://adil001.pythonanywhere.com/
 
+# To-Do List Application
+
+Access the live version of the To-Do List application here:  
+🔗 [https://adil001.pythonanywhere.com/](https://adil001.pythonanywhere.com/)
+
+---
+
+### Setup Instructions
 
 1. **Clone the Repository**
    ```bash
@@ -22,9 +27,7 @@ Access the live version of the To-Do List application here:
    pip install -r requirements.txt
    pip install django djangorestframework
    pip install djangorestframework-simplejwt
-
    pip install flake8 black
-
    ```
 
 4. **Run Database Migrations**
@@ -43,24 +46,21 @@ Access the live version of the To-Do List application here:
 
 ---
 
-### Cypress Setup (E2E Testing)
+### Selenium Setup (E2E Testing)
 
-1. **Navigate to Cypress Directory**
+1. **Install Selenium and WebDriver Manager**
+   Install the necessary dependencies for running Selenium tests.
    ```bash
-   cd todo/cypress
+   pip install selenium webdriver-manager
    ```
 
-2. **Install Cypress Dependencies**
-   Use `npm` to install the required Node.js modules.
+2. **Run Selenium Tests**
+   Execute the Selenium-based E2E tests:
    ```bash
-   npm install
+   python todo/tests_e2e.py
    ```
 
-3. **Run Cypress Tests**
-   Launch Cypress to run the end-to-end tests.
-   ```bash
-   npx cypress open
-   ```
+   This will run your end-to-end tests using Selenium.
 
 ---
 
@@ -91,19 +91,19 @@ Access the live version of the To-Do List application here:
    ```
 
 3. **Run End-to-End (E2E) Tests**
-   Follow the Cypress setup steps and run tests using the Cypress UI.
- ```bash
-   cd todo/cypress
-   npm install cypress
-   npm cypress run
+   Follow the Selenium setup steps and run tests with the following command:
+   ```bash
+   python todo/tests_e2e.py
    ```
+
 ---
 
 ### API Endpoints
-TSet Base URL: Use an environment variable, e.g., {{baseUrl}}.
+Test Base URL: Use an environment variable, e.g., `{{baseUrl}}`.
 
-Base URL: https://adil001.pythonanywhere.com
-Add Requests: Create the following 5 requests in the collection:
+**Base URL:** [https://adil001.pythonanywhere.com](https://adil001.pythonanywhere.com)
+
+**Add Requests:** Create the following 5 requests in the collection:
 ```bash
 {
   "title": "icecream",
@@ -113,11 +113,14 @@ Add Requests: Create the following 5 requests in the collection:
   "status": "OPEN"
 }
 ```
-```bash
-GET /tasks/: Fetch all tasks.
-POST /tasks/: Add a new task (include JSON body).
-GET /tasks/{id}/: Fetch task by ID.
-PUT /tasks/{id}/: Update task by ID (include JSON body).
-DELETE /tasks/{id}/: Delete task by ID.
-```
+
+**API Endpoints:**
+
+- **GET /tasks/**: Fetch all tasks.
+- **POST /tasks/**: Add a new task (include JSON body).
+- **GET /tasks/{id}/**: Fetch task by ID.
+- **PUT /tasks/{id}/**: Update task by ID (include JSON body).
+- **DELETE /tasks/{id}/**: Delete task by ID.
+
+---
 

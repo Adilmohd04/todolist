@@ -17,9 +17,7 @@ class TaskIntegrationTests(APITestCase):
 
     def test_create_task_success(self):
         """Test creating a task successfully"""
-        future_date = (datetime.now() + timedelta(days=1)).strftime(
-            "%Y-%m-%d"
-        )  # One day ahead
+        future_date = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
 
         data = {
             "title": "Test Task",

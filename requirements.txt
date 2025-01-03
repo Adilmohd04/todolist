@@ -44,5 +44,8 @@ urllib3==2.2.3
 websocket-client==1.8.0
 wsproto==1.2.0
 beautifulsoup4==4.12.3
+<<<<<<< HEAD
 black
 flake8
+=======
+>>>>>>> 83a4356ec154c9f839c911ae883a3d260f8d4a79

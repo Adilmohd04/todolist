@@ -46,6 +46,13 @@ jobs:
       - name: Run integration tests
         run: python manage.py test todo.tests_integration
 
+      # Step 8: Upload test coverage report (optional)
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3  
+        with:
+          name: coverage-report
+          path: .coverage  
+
   e2e-tests:
     runs-on: ubuntu-latest
     steps:
@@ -70,21 +77,35 @@ jobs:
           nohup python manage.py runserver 0.0.0.0:8000 &
         continue-on-error: false
 
-      - name: Install Selenium and WebDriver Manager
-        run: |
-          pip install selenium webdriver-manager
+      # Step 6: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-      - name: Run Selenium tests
-        run: |
-          python todo/tests_e2e.py
-        continue-on-error: false
+      # Step 7: Install dependencies
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./todo/cypress
 
-      - name: Stop Django server
-        run: pkill -f runserver
-        continue-on-error: true
+      # Step 8: Set permissions for Cypress binary
+      - name: Set permissions for Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+        working-directory: ./todo/cypress
 
-      - name: Upload Selenium test results
+      # Step 9: Install Cypress binary
+      - name: Install Cypress binary
+        run: npx cypress install
+        working-directory: ./todo/cypress
+
+      # Step 10: Run Cypress tests
+      - name: Run Cypress tests
+        run: npx cypress run --config baseUrl=http://127.0.0.1:8000
+        working-directory: ./todo/cypress
+
+      # Step 11: Upload Cypress test results
+      - name: Upload Cypress test results
         uses: actions/upload-artifact@v3
         with:
-          name: selenium-test-results
-          path: ./todo/selenium_tests/results/
+          name: cypress-test-results
+          path: ./todo/cypress/cypress/results/
