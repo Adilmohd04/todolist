@@ -1,2 +1,18 @@
 [tool.black]
-line-length = 88  # Default line length for Black
+line-length = 88
+target-version = ['py39']  # Adjust based on your Python version
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.venv
+    | venv
+    | __pycache__
+    | migrations
+    | db\.sqlite3
+    | staticfiles
+    | cypress
+    | reports
+)/
+'''
+

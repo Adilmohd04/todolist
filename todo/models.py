@@ -7,13 +7,13 @@ from datetime import datetime
 
 class Task(models.Model):
     STATUS_CHOICES = [
-    ("OPEN", "Open"),
-    ("WORKING", "Working"),
-    ("PENDING_REVIEW", "Pending Review"),
-    ("COMPLETED", "Completed"),
-    ("OVERDUE", "Overdue"),
-    ("CANCELLED", "Cancelled"),
-]
+        ("OPEN", "Open"),
+        ("WORKING", "Working"),
+        ("PENDING_REVIEW", "Pending Review"),
+        ("COMPLETED", "Completed"),
+        ("OVERDUE", "Overdue"),
+        ("CANCELLED", "Cancelled"),
+    ]
     timestamp = models.DateTimeField(auto_now_add=True)
 
     title = models.CharField(max_length=100)
@@ -39,16 +39,17 @@ class Task(models.Model):
 
     def clean(self):
         if self.due_date and self.due_date < now().date():
-            raise ValidationError({'due_date': 'Due date cannot be in the past.'})
+            raise ValidationError({"due_date": "Due date cannot be in the past."})
         try:
             if self.due_date:
-                datetime.strptime(str(self.due_date), '%Y-%m-%d')
+                datetime.strptime(str(self.due_date), "%Y-%m-%d")
         except ValueError:
-            raise ValidationError({'due_date': 'Invalid date format. Use YYYY-MM-DD.'})
+            raise ValidationError({"due_date": "Invalid date format. Use YYYY-MM-DD."})
 
         if len(self.description) > 1000:
-            raise ValidationError({'description': 'Description cannot exceed 1000 characters.'})
-
+            raise ValidationError(
+                {"description": "Description cannot exceed 1000 characters."}
+            )
 
     def __str__(self):
         return self.title

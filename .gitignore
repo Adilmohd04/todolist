@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Coverage reports
+.coverage
+*.coverage.*
+
+# Django-specific
+db.sqlite3
+migrations/
+
+# IDE files
+*.vscode/
+*.idea/
+
+# Node.js/Cypress
+node_modules/
+cypress/videos/
+cypress/screenshots/
