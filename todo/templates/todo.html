@@ -190,7 +190,18 @@
             <p><span>Timestamp:</span> {{ task.timestamp }}</p>
             <p><span>Description:</span> {{ task.description }}</p>
             <p><span>Due Date:</span> {{ task.due_date }}</p>
-            <p><span>Tags:</span> <span class="task-tags">{{ task.tags }}</span></p>
+            <p>
+                <span>Tags:</span>
+                <span class="task-tags">
+                    {% if task.tags.exists %}
+                        {% for tag in task.tags.all %}
+                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        None
+                    {% endif %}
+                </span>
+            </p>
             <p><span>Status:</span> 
                 <span class="task-status {{ task.status | lower }}">
                     {{ task.status }}

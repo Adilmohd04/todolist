@@ -1,18 +1,23 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from datetime import datetime
-from .models import Task
-
+from .models import Task, Tag  # Make sure you have a Tag model
 
 class TaskModelTest(TestCase):
 
     def setUp(self):
+        # Create a tag first
+        tag1 = Tag.objects.create(name="tag1")
+        tag2 = Tag.objects.create(name="tag2")
+
         self.task = Task.objects.create(
             title="Test Task",
             description="This is a test task",
             due_date=datetime(2024, 12, 31),
             status="OPEN",
         )
+        # Set tags using the set() method
+        self.task.tags.set([tag1, tag2])  # Adding tags through set() method
 
     def test_task_creation(self):
         task = self.task
@@ -52,16 +57,23 @@ class TaskModelTest(TestCase):
         task = Task(title="Test Task", description="Test", status="OPEN")
         task.full_clean()
 
-    def test_tag_unique(self):
-        task = Task(
-            title="Test Task",
-            description="Test",
-            tags="tag1, tag2, tag1",
-            status="OPEN",
-        )
-        task.save()
-        task = Task.objects.get(id=task.id)
-        self.assertEqual(task.tags, "tag1, tag2")
+def test_tag_unique(self):
+    tag1 = Tag.objects.create(name="unique_tag1")
+    tag2 = Tag.objects.create(name="unique_tag2")
+    
+    task = Task(
+        title="Test Task",
+        description="Test",
+        status="OPEN",
+    )
+    task.save()
+    
+    task.tags.set([tag1, tag2])  
+    
+    task = Task.objects.get(id=task.id)
+    
+    tags = [tag.name for tag in task.tags.all()]  
+    self.assertEqual(tags, ["unique_tag1", "unique_tag2"])
 
     def test_status_choices(self):
         valid_statuses = [

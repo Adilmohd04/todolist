@@ -70,8 +70,9 @@
         <input type="date" id="due_date" name="due_date" value="{{ task.due_date|default:'' }}" data-cy="due-date-input">
 
         <label for="tags">Tags (comma-separated)</label>
-        <input type="text" id="tags" name="tags" value="{{ task.tags|default:'' }}" data-cy="tags-input">
-
+        <input type="text" id="tags" name="tags" 
+            value="{{ task.tags.all|join:', ' }}" placeholder="Enter tags, comma separated">
+    
         <label for="status">Status</label>
         <select id="status" name="status" data-cy="status-select">
             {% for status, display in status_choices %}

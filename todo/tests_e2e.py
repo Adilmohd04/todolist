@@ -8,17 +8,19 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
+# Set up Chrome options
 options = Options()
-options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--remote-debugging-port=9222")
+# options.add_argument("--headless")  # Commenting out headless for debugging
+# options.add_argument("--no-sandbox")  # Commenting out sandbox option
+# options.add_argument("--remote-debugging-port=9222")  # Remove for normal cases
 
+# Use webdriver-manager to ensure the correct driver is used
 service = Service(ChromeDriverManager().install())
 
+# Initialize the WebDriver with the service and options
 driver = webdriver.Chrome(service=service, options=options)
 
-
+# Function to log in as an admin
 def login_admin():
     try:
         driver.get("http://127.0.0.1:8000/admin/")
@@ -35,7 +37,6 @@ def login_admin():
     except Exception as e:
         print(f"Error during login: {e}")
 
-
 # Function to get and store all task IDs
 def get_task_ids():
     try:
@@ -46,23 +47,19 @@ def get_task_ids():
             if not tasks:
                 print("No tasks available.")
                 return []
-
             task_ids = [task.get("id") for task in tasks if task.get("id")]
             return task_ids
         else:
             print(f"Failed to retrieve tasks. HTTP Status Code: {response.status_code}")
             return []
-
     except Exception as e:
         print(f"Error during task ID retrieval: {e}")
         return []
-
 
 # Function to create a task
 def create_task():
     try:
         driver.get("http://127.0.0.1:8000/")
-
         new_task_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, ".new-task-btn"))
         )
@@ -89,11 +86,10 @@ def create_task():
             EC.presence_of_element_located((By.CSS_SELECTOR, ".task-container"))
         )
         print("Task created successfully.")
-
     except Exception as e:
         print(f"Error during task creation: {e}")
 
-
+# Function to update a task
 def update_task(task_id):
     try:
         driver.get(f"http://127.0.0.1:8000/form/{task_id}/")
@@ -123,11 +119,10 @@ def update_task(task_id):
             EC.presence_of_element_located((By.CSS_SELECTOR, ".task-container"))
         )
         print(f"Task {task_id} updated successfully.")
-
     except Exception as e:
         print(f"Error during task update: {e}")
 
-
+# Function to delete a task
 def delete_task(task_id):
     try:
         driver.get(f"http://127.0.0.1:8000/tasks/{task_id}/delete/")
@@ -143,11 +138,10 @@ def delete_task(task_id):
             EC.presence_of_element_located((By.CSS_SELECTOR, ".task-container"))
         )
         print(f"Task {task_id} deleted successfully.")
-
     except Exception as e:
         print(f"Error during task deletion: {e}")
 
-
+# Main execution flow
 def main():
     try:
         login_admin()
@@ -158,7 +152,6 @@ def main():
             print("No tasks available.")
             return
 
-        # Select the last task
         task_id = task_ids[-1]
         print(f"Selected task ID: {task_id}")
 
@@ -173,12 +166,10 @@ def main():
             )
 
         update_task(task_id)
-
         delete_task(task_id)
 
     finally:
         driver.quit()
-
 
 if __name__ == "__main__":
     main()

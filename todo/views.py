@@ -4,14 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
-from .models import Task
+from .models import Tag, Task
 from .serializers import TaskSerializer
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils.dateparse import parse_date
-
 from django.core.paginator import Paginator
-
 
 def index(request):
     task_list = Task.objects.all().order_by("-timestamp")
@@ -21,7 +19,6 @@ def index(request):
     context = {"tasks": tasks}
     return render(request, "todo.html", context)
 
-
 def task_form(request, pk=None):
     task = None
     if pk:
@@ -30,30 +27,35 @@ def task_form(request, pk=None):
     if request.method == "POST":
         title = request.POST.get("title")
         description = request.POST.get("description")
-        due_date = parse_date(
-            request.POST.get("due_date")
-        )  # Parse and validate the date
-        tags = request.POST.get("tags")
+        due_date = parse_date(request.POST.get("due_date"))
+        tags_input = request.POST.get("tags") 
         status = request.POST.get("status")
 
         if task:
             task.title = title
             task.description = description
             task.due_date = due_date
-            task.tags = tags
             task.status = status
             task.save()
+            task.tags.clear()  
         else:
-            Task.objects.create(
+            task = Task.objects.create(
                 title=title,
                 description=description,
                 due_date=due_date,
-                tags=tags,
                 status=status,
             )
+
+        # Process and add tags
+        if tags_input:
+            tag_names = [tag.strip() for tag in tags_input.split(",") if tag.strip()]
+            for tag_name in tag_names:
+                tag, created = Tag.objects.get_or_create(name=tag_name)
+                task.tags.add(tag)
+
         return HttpResponseRedirect(reverse("index"))
 
-    status_choices = Task.STATUS_CHOICES  # Correctly access the choices
+    status_choices = Task.STATUS_CHOICES
     return render(
         request,
         "form.html",
@@ -67,15 +69,13 @@ def task_form(request, pk=None):
         },
     )
 
-
 def task_delete(request, pk):
     try:
         task = Task.objects.get(pk=pk)
         task.delete()
-        return redirect("/")  # Redirect to task list after deletion
+        return redirect("/")
     except Task.DoesNotExist:
-        return redirect("/")  # Handle case where task doesn't exist
-
+        return redirect("/")
 
 class TaskListCreateView(APIView):
     authentication_classes = [BasicAuthentication]
@@ -92,7 +92,6 @@ class TaskListCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class TaskDetailView(APIView):
     authentication_classes = [BasicAuthentication]
@@ -133,6 +132,3 @@ class TaskDetailView(APIView):
             return Response(
                 {"error": "Task not found"}, status=status.HTTP_404_NOT_FOUND
             )
-
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
