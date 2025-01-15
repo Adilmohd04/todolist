@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 88
-target-version = ['py39']  # Adjust based on your Python version
+target-version = ['py39']  
 include = '\.pyi?$'
 exclude = '''
 /(
