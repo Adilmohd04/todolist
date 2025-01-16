@@ -3,11 +3,13 @@ from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from datetime import datetime
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
+
 
 class Task(models.Model):
     STATUS_CHOICES = [
