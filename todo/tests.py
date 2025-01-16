@@ -1,12 +1,13 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from datetime import datetime
-from .models import Task, Tag  # Make sure you have a Tag model
+from .models import Task, Tag  
+
 
 class TaskModelTest(TestCase):
 
     def setUp(self):
-        # Create a tag first
+        
         tag1 = Tag.objects.create(name="tag1")
         tag2 = Tag.objects.create(name="tag2")
 
@@ -16,8 +17,8 @@ class TaskModelTest(TestCase):
             due_date=datetime(2024, 12, 31),
             status="OPEN",
         )
-        # Set tags using the set() method
-        self.task.tags.set([tag1, tag2])  # Adding tags through set() method
+        
+        self.task.tags.set([tag1, tag2]) 
 
     def test_task_creation(self):
         task = self.task
@@ -42,11 +43,8 @@ class TaskModelTest(TestCase):
     def test_description_max_length(self):
         long_description = "a" * 1001
         task = Task(title="Test Task", description=long_description, status="OPEN")
-        try:
+        with self.assertRaises(ValidationError):
             task.full_clean()
-            self.fail("ValidationError not raised")
-        except ValidationError:
-            pass
 
     def test_empty_description(self):
         task = Task(title="Test Task", description="", status="OPEN")
@@ -57,23 +55,23 @@ class TaskModelTest(TestCase):
         task = Task(title="Test Task", description="Test", status="OPEN")
         task.full_clean()
 
-def test_tag_unique(self):
-    tag1 = Tag.objects.create(name="unique_tag1")
-    tag2 = Tag.objects.create(name="unique_tag2")
-    
-    task = Task(
-        title="Test Task",
-        description="Test",
-        status="OPEN",
-    )
-    task.save()
-    
-    task.tags.set([tag1, tag2])  
-    
-    task = Task.objects.get(id=task.id)
-    
-    tags = [tag.name for tag in task.tags.all()]  
-    self.assertEqual(tags, ["unique_tag1", "unique_tag2"])
+    def test_tag_unique(self):
+        tag1 = Tag.objects.create(name="unique_tag1")
+        tag2 = Tag.objects.create(name="unique_tag2")
+
+        task = Task(
+            title="Test Task",
+            description="Test",
+            status="OPEN",
+        )
+        task.save()
+
+        task.tags.set([tag1, tag2])
+
+        task = Task.objects.get(id=task.id)
+
+        tags = [tag.name for tag in task.tags.all()]
+        self.assertEqual(tags, ["unique_tag1", "unique_tag2"])
 
     def test_status_choices(self):
         valid_statuses = [
