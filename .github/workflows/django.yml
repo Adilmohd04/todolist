@@ -33,7 +33,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest flake8 black
-
+          
+      - name: Run Migrations
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
+          
       - name: Run Flake8
         run: flake8 .
 
