@@ -13,7 +13,9 @@ class TagSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     tag_names = serializers.ListField(
-        child=serializers.CharField(max_length=50), write_only=True, required=False
+        child=serializers.CharField(max_length=50),
+        write_only=True,
+        required=False,
     )
 
     class Meta:

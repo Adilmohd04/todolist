@@ -43,11 +43,8 @@ class TaskModelTest(TestCase):
     def test_description_max_length(self):
         long_description = "a" * 1001
         task = Task(title="Test Task", description=long_description, status="OPEN")
-        try:
+        with self.assertRaises(ValidationError):
             task.full_clean()
-            self.fail("ValidationError not raised")
-        except ValidationError:
-            pass
 
     def test_empty_description(self):
         task = Task(title="Test Task", description="", status="OPEN")
