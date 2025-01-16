@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.utils.dateparse import parse_date
 from django.core.paginator import Paginator
 
+
 def index(request):
     task_list = Task.objects.all().order_by("-timestamp")
     paginator = Paginator(task_list, 5)
@@ -18,6 +19,7 @@ def index(request):
     tasks = paginator.get_page(page_number)
     context = {"tasks": tasks}
     return render(request, "todo.html", context)
+
 
 def task_form(request, pk=None):
     task = None
@@ -28,7 +30,7 @@ def task_form(request, pk=None):
         title = request.POST.get("title")
         description = request.POST.get("description")
         due_date = parse_date(request.POST.get("due_date"))
-        tags_input = request.POST.get("tags") 
+        tags_input = request.POST.get("tags")
         status = request.POST.get("status")
 
         if task:
@@ -37,7 +39,7 @@ def task_form(request, pk=None):
             task.due_date = due_date
             task.status = status
             task.save()
-            task.tags.clear()  
+            task.tags.clear()
         else:
             task = Task.objects.create(
                 title=title,
@@ -69,6 +71,7 @@ def task_form(request, pk=None):
         },
     )
 
+
 def task_delete(request, pk):
     try:
         task = Task.objects.get(pk=pk)
@@ -76,6 +79,7 @@ def task_delete(request, pk):
         return redirect("/")
     except Task.DoesNotExist:
         return redirect("/")
+
 
 class TaskListCreateView(APIView):
     authentication_classes = [BasicAuthentication]
@@ -92,6 +96,7 @@ class TaskListCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class TaskDetailView(APIView):
     authentication_classes = [BasicAuthentication]
