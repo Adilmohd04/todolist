@@ -5,28 +5,29 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .models import Task, Tag
 
+
 class TaskIntegrationTests(APITestCase):
 
     def setUp(self):
+
         self.user = User.objects.create_user(username="testuser", password="password")
         self.url = "/tasks/"
 
         self.auth = "testuser:password"
         self.auth_encoded = base64.b64encode(self.auth.encode("utf-8")).decode("utf-8")
 
-        # Create tags before use in tasks
         self.tag1 = Tag.objects.create(name="tag1")
         self.tag2 = Tag.objects.create(name="tag2")
 
     def test_create_task_success(self):
-        """Test creating a task successfully"""
+
         future_date = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
 
         data = {
             "title": "Test Task",
             "description": "Test description",
             "due_date": future_date,
-            "tag_names": ["tag1", "tag2"],  # Use tag names here instead of IDs
+            "tag_names": ["tag1", "tag2"],
             "status": "OPEN",
         }
         response = self.client.post(
@@ -37,15 +38,12 @@ class TaskIntegrationTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        # Verify task creation
         task = Task.objects.get(pk=response.data["id"])
         self.assertEqual(task.title, data["title"])
         self.assertEqual(task.description, data["description"])
 
-        # Verify that tags are assigned correctly
         self.assertEqual(
-            list(task.tags.values_list("name", flat=True)),
-            ["tag1", "tag2"]
+            list(task.tags.values_list("name", flat=True)), ["tag1", "tag2"]
         )
 
     def test_create_task_missing_field(self):
@@ -89,7 +87,7 @@ class TaskIntegrationTests(APITestCase):
             due_date="2024-12-30",
             status="OPEN",
         )
-        task.tags.set([self.tag1, self.tag2])  # Use tag instances here
+        task.tags.set([self.tag1, self.tag2])
         url = f"/tasks/{task.pk}/"
         response = self.client.get(url, HTTP_AUTHORIZATION=f"Basic {self.auth_encoded}")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -108,7 +106,7 @@ class TaskIntegrationTests(APITestCase):
             due_date="2024-12-30",
             status="OPEN",
         )
-        task.tags.set([self.tag1, self.tag2])  # Use tag instances here
+        task.tags.set([self.tag1, self.tag2])
         url = f"/tasks/{task.pk}/"
         data = {"status": "COMPLETED"}
         response = self.client.put(
@@ -135,7 +133,7 @@ class TaskIntegrationTests(APITestCase):
             due_date="2024-12-30",
             status="OPEN",
         )
-        task.tags.set([self.tag1, self.tag2])  # Use tag instances here
+        task.tags.set([self.tag1, self.tag2])
         url = f"/tasks/{task.pk}/"
         data = {"status": "INVALID_STATUS"}
         response = self.client.put(
@@ -151,7 +149,7 @@ class TaskIntegrationTests(APITestCase):
             due_date="2024-12-30",
             status="OPEN",
         )
-        task.tags.set([self.tag1, self.tag2])  # Use tag instances here
+        task.tags.set([self.tag1, self.tag2])
         url = f"/tasks/{task.pk}/"
         response = self.client.delete(
             url, HTTP_AUTHORIZATION=f"Basic {self.auth_encoded}"
