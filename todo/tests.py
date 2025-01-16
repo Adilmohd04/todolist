@@ -1,13 +1,13 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from datetime import datetime
-from .models import Task, Tag  
+from .models import Task, Tag
 
 
 class TaskModelTest(TestCase):
 
     def setUp(self):
-        
+
         tag1 = Tag.objects.create(name="tag1")
         tag2 = Tag.objects.create(name="tag2")
 
@@ -17,8 +17,8 @@ class TaskModelTest(TestCase):
             due_date=datetime(2024, 12, 31),
             status="OPEN",
         )
-        
-        self.task.tags.set([tag1, tag2]) 
+
+        self.task.tags.set([tag1, tag2])
 
     def test_task_creation(self):
         task = self.task
