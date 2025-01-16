@@ -3,10 +3,12 @@ from .models import Task, Tag
 from rest_framework.exceptions import ValidationError
 from django.utils.timezone import now
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['id', 'name']
+        fields = ["id", "name"]
+
 
 class TaskSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
@@ -21,7 +23,9 @@ class TaskSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         # Ensure tags are represented by their names
-        representation["tags"] = [tag.name for tag in instance.tags.all()] if instance.tags.exists() else []
+        representation["tags"] = (
+            [tag.name for tag in instance.tags.all()] if instance.tags.exists() else []
+        )
         return representation
 
     def validate_tags(self, value):
@@ -29,7 +33,7 @@ class TaskSerializer(serializers.ModelSerializer):
         return list(set(value))
 
     def create(self, validated_data):
-        tag_names = validated_data.pop('tag_names', [])
+        tag_names = validated_data.pop("tag_names", [])
         task = Task.objects.create(**validated_data)
         for tag_name in tag_names:
             tag, created = Tag.objects.get_or_create(name=tag_name)
@@ -37,7 +41,7 @@ class TaskSerializer(serializers.ModelSerializer):
         return task
 
     def update(self, instance, validated_data):
-        tag_names = validated_data.pop('tag_names', [])
+        tag_names = validated_data.pop("tag_names", [])
         instance = super().update(instance, validated_data)
         if tag_names:
             instance.tags.clear()

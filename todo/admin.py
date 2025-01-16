@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Task, Tag
 
+
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "status", "due_date", "timestamp")
@@ -14,6 +15,7 @@ class TaskAdmin(admin.ModelAdmin):
         ("Basic Information", {"fields": ("title", "description", "status")}),
         ("Additional Details", {"fields": ("tags", "due_date", "timestamp")}),
     )
+
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

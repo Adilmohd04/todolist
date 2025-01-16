@@ -8,19 +8,17 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Set up Chrome options
-options = Options()
-# options.add_argument("--headless")  # Commenting out headless for debugging
-# options.add_argument("--no-sandbox")  # Commenting out sandbox option
-# options.add_argument("--remote-debugging-port=9222")  # Remove for normal cases
 
-# Use webdriver-manager to ensure the correct driver is used
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--remote-debugging-port=9222")
+
 service = Service(ChromeDriverManager().install())
 
-# Initialize the WebDriver with the service and options
 driver = webdriver.Chrome(service=service, options=options)
 
-# Function to log in as an admin
+
 def login_admin():
     try:
         driver.get("http://127.0.0.1:8000/admin/")
@@ -37,7 +35,7 @@ def login_admin():
     except Exception as e:
         print(f"Error during login: {e}")
 
-# Function to get and store all task IDs
+
 def get_task_ids():
     try:
         url = "http://127.0.0.1:8000/tasks/"
@@ -56,7 +54,7 @@ def get_task_ids():
         print(f"Error during task ID retrieval: {e}")
         return []
 
-# Function to create a task
+
 def create_task():
     try:
         driver.get("http://127.0.0.1:8000/")
@@ -89,7 +87,7 @@ def create_task():
     except Exception as e:
         print(f"Error during task creation: {e}")
 
-# Function to update a task
+
 def update_task(task_id):
     try:
         driver.get(f"http://127.0.0.1:8000/form/{task_id}/")
@@ -122,7 +120,7 @@ def update_task(task_id):
     except Exception as e:
         print(f"Error during task update: {e}")
 
-# Function to delete a task
+
 def delete_task(task_id):
     try:
         driver.get(f"http://127.0.0.1:8000/tasks/{task_id}/delete/")
@@ -141,7 +139,7 @@ def delete_task(task_id):
     except Exception as e:
         print(f"Error during task deletion: {e}")
 
-# Main execution flow
+
 def main():
     try:
         login_admin()
@@ -170,6 +168,7 @@ def main():
 
     finally:
         driver.quit()
+
 
 if __name__ == "__main__":
     main()

@@ -5,9 +5,11 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .models import Task, Tag
 
+
 class TaskIntegrationTests(APITestCase):
 
     def setUp(self):
+
         self.user = User.objects.create_user(username="testuser", password="password")
         self.url = "/tasks/"
 
@@ -44,8 +46,7 @@ class TaskIntegrationTests(APITestCase):
 
         # Verify that tags are assigned correctly
         self.assertEqual(
-            list(task.tags.values_list("name", flat=True)),
-            ["tag1", "tag2"]
+            list(task.tags.values_list("name", flat=True)), ["tag1", "tag2"]
         )
 
     def test_create_task_missing_field(self):
