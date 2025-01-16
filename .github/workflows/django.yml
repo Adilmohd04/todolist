@@ -67,7 +67,7 @@ jobs:
 
       - name: Start Django server
         run: |
-          nohup python manage.py runserver 0.0.0.0:8000 &
+          nohup python manage.py runserver 0.0.0.0:8000 & 
         continue-on-error: false
 
       - name: Install Selenium and WebDriver Manager
@@ -84,7 +84,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload Selenium test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  
         with:
           name: selenium-test-results
           path: ./todo/selenium_tests/results/
